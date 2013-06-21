@@ -43,4 +43,24 @@ suite('App', function() {
       done();
     });
   });
+
+  suite('#checkForUpdate', function() {
+    setup(function(done) {
+      apps.mgmt.getAll().onsuccess = function(evt) {
+        subject = evt.target.result[0];
+        var req = subject.checkForUpdate();
+        req.onsuccess = function(evt) {
+          done();
+        };
+      };
+    });
+
+    test.skip('should set downloadavailable if update', function() {
+      // TODO(gareth)
+    });
+
+    test.skip('should not set downloadavailable if not update', function() {
+      // TODO(gareth)
+    });
+  });
 });
