@@ -5,9 +5,7 @@
  *     to get a list of the installed apps and launch one.
  */
 
-var Apps = require(__dirname + '/../index'),
-    BootWatcher = require(__dirname + '/../lib/bootwatcher'),
-    Host = require('marionette-host-environment'),
+var Host = require('marionette-host-environment'),
     Marionette = require('marionette-client'),
     path = require('path');
 
@@ -77,18 +75,5 @@ Host.spawn(B2G_PATH, OPTIONS, function(err, port, childProcess) {
     // Wrap the marionette connection with a client that we can pass
     // to our plugin.
     var client = new Marionette.Client(driver);
-
-    // Make a bootwatcher to tell us when we're done booting.
-    BootWatcher.setup(client, function(err, bootwatcher) {
-      function onBoot(evt) {
-        bootwatcher.removeListener(BootWatcher.EventType.BOOT, onBoot);
-        demo(client, childProcess);
-      }
-
-      bootwatcher.addListener(BootWatcher.EventType.BOOT, onBoot);
-      client.startSession(function() {
-        bootwatcher.start();
-      });
-    });
   });
 });
